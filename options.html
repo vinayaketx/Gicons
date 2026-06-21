@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gicons — Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ───────── Reset & Base ───────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root, [data-theme="light"] {
+      --bg-deep: #f0f2f5;
+      --bg-base: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: rgba(255, 255, 255, 0.95);
+      --bg-input: rgba(0, 0, 0, 0.03);
+      --bg-input-hover: rgba(0, 0, 0, 0.06);
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-focus: rgba(99, 132, 255, 0.5);
+      --text-primary: #1d1d1f;
+      --text-secondary: rgba(29, 29, 31, 0.6);
+      --text-tertiary: rgba(29, 29, 31, 0.35);
+      --accent: #4f6ef7;
+      --accent-hover: #3b5de7;
+      --accent-glow: rgba(79, 110, 247, 0.2);
+      --danger: #e53e3e;
+      --danger-hover: #c53030;
+      --success: #38a169;
+      --warning: #d69e2e;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px var(--border-subtle);
+      --shadow-elevated: 0 8px 32px rgba(0,0,0,0.12);
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-spring: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-deep: #0d0d1a;
+      --bg-base: #131325;
+      --bg-card: rgba(25, 25, 55, 0.55);
+      --bg-card-hover: rgba(30, 30, 65, 0.7);
+      --bg-input: rgba(255, 255, 255, 0.04);
+      --bg-input-hover: rgba(255, 255, 255, 0.07);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-focus: rgba(99, 132, 255, 0.5);
+      --text-primary: #e8e8f0;
+      --text-secondary: rgba(232, 232, 240, 0.55);
+      --text-tertiary: rgba(232, 232, 240, 0.35);
+      --accent: #6384ff;
+      --accent-hover: #7a9aff;
+      --accent-glow: rgba(99, 132, 255, 0.25);
+      --danger: #ff4d6a;
+      --danger-hover: #ff6680;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --shadow-card: 0 4px 32px rgba(0,0,0,0.3), 0 0 0 1px var(--border-subtle);
+      --shadow-elevated: 0 12px 48px rgba(0,0,0,0.5);
+    }
+
+    html { font-size: 15px; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ───────── Animated BG ───────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(79,110,247,0.04), transparent),
+        radial-gradient(ellipse 50% 40% at 80% 85%, rgba(168,85,247,0.03), transparent),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(59,130,246,0.02), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+    [data-theme="dark"] body::before {
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(99,132,255,0.08), transparent),
+        radial-gradient(ellipse 50% 40% at 80% 85%, rgba(168,85,247,0.06), transparent),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(59,130,246,0.04), transparent);
+    }
+
+    /* ───────── Container ───────── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ───────── Header ───────── */
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeSlideIn 0.6s ease-out;
+    }
+
+    .header-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(99,132,255,0.3);
+    }
+    .header-logo svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #1d1d1f 0%, rgba(29,29,31,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    [data-theme="dark"] .header h1 {
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      font-weight: 400;
+    }
+
+    /* ───────── Section / Card ───────── */
+    .section {
+      background: var(--bg-card);
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 28px 28px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+      animation: fadeSlideIn 0.6s ease-out backwards;
+    }
+    .section:nth-child(2) { animation-delay: 0.05s; }
+    .section:nth-child(3) { animation-delay: 0.10s; }
+    .section:nth-child(4) { animation-delay: 0.15s; }
+    .section:nth-child(5) { animation-delay: 0.20s; }
+    .section:nth-child(6) { animation-delay: 0.25s; }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: rgba(99,132,255,0.12);
+      flex-shrink: 0;
+    }
+    .section-title .icon svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--accent);
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      margin-bottom: 20px;
+      padding-left: 42px;
+    }
+
+    /* ───────── Action List (DnD) ───────── */
+    #actionList {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      border: 1px solid transparent;
+      cursor: grab;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+                  box-shadow var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+      user-select: none;
+    }
+    .action-item:hover {
+      background: var(--bg-input-hover);
+      border-color: var(--border-subtle);
+    }
+    .action-item:active { cursor: grabbing; }
+
+    .action-item.dragging {
+      opacity: 0.35;
+      transform: scale(0.97);
+    }
+    .action-item.drag-over {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+      background: rgba(99,132,255,0.06);
+    }
+
+    .drag-handle {
+      color: var(--text-tertiary);
+      font-size: 14px;
+      letter-spacing: 2px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color var(--transition-fast);
+      width: 16px;
+      text-align: center;
+    }
+    .action-item:hover .drag-handle { color: var(--text-secondary); }
+
+    .action-icon-preview {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+    }
+    .action-icon-preview svg, .action-icon-preview img {
+      width: 18px;
+      height: 18px;
+    }
+    .action-icon-preview svg { fill: var(--text-secondary); }
+    .action-icon-preview img { object-fit: contain; }
+
+    .action-label {
+      flex: 1;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .action-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(99,132,255,0.1);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .action-badge.custom {
+      background: rgba(168,85,247,0.1);
+      color: #c084fc;
+    }
+
+    /* ───────── Toggle Switch ───────── */
+    .toggle-switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background var(--transition-normal);
+    }
+    .toggle-slider::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--text-secondary);
+      top: 3px;
+      left: 3px;
+      transition: transform var(--transition-spring), background var(--transition-normal);
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--accent);
+    }
+    .toggle-switch input:checked + .toggle-slider::after {
+      transform: translateX(18px);
+      background: #fff;
+    }
+    .toggle-switch input:focus-visible + .toggle-slider {
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* ───────── Custom Icon Upload ───────── */
+    .custom-icons-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .icon-upload-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      border: 1px solid transparent;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+    .icon-upload-row:hover {
+      background: var(--bg-input-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .icon-upload-preview {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .icon-upload-preview svg, .icon-upload-preview img {
+      width: 22px;
+      height: 22px;
+    }
+    .icon-upload-preview svg { fill: var(--text-secondary); }
+    .icon-upload-preview img { object-fit: contain; }
+
+    .icon-upload-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .icon-upload-info .name {
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .icon-upload-info .status {
+      font-size: 0.73rem;
+      color: var(--text-tertiary);
+    }
+
+    .icon-upload-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ───────── Buttons ───────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      border-radius: 6px;
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-secondary);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-primary);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 12px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-danger {
+      background: rgba(255,77,106,0.1);
+      color: var(--danger);
+    }
+    .btn-danger:hover {
+      background: rgba(255,77,106,0.18);
+      color: var(--danger-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--text-primary);
+    }
+
+    /* Hidden file input */
+    .file-input-hidden {
+      display: none;
+    }
+
+    /* ───────── Form Controls ───────── */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group:last-child { margin-bottom: 0; }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .form-row .form-group { flex: 1; min-width: 180px; margin-bottom: 0; }
+
+    label.form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 7px;
+      letter-spacing: 0.02em;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: border-color var(--transition-fast), background var(--transition-fast),
+                  box-shadow var(--transition-fast);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%23888'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 34px;
+    }
+    select:hover, input[type="number"]:hover {
+      background: var(--bg-input-hover);
+      border-color: rgba(255,255,255,0.1);
+    }
+    select:focus, input[type="number"]:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    select option {
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+    [data-theme="dark"] select option {
+      background: #1a1a2e;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+    }
+
+    /* ───────── Color Picker ───────── */
+    .color-picker-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .color-swatch {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border-subtle);
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .color-swatch:hover {
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .color-swatch input[type="color"] {
+      position: absolute;
+      inset: -8px;
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+      border: none;
+      cursor: pointer;
+      background: none;
+    }
+    .color-swatch input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    .color-swatch input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 4px;
+    }
+
+    .color-value {
+      font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 6px 10px;
+      width: 120px;
+      text-align: center;
+      transition: border-color var(--transition-fast);
+    }
+    .color-value:focus {
+      outline: none;
+      border-color: var(--border-focus);
+    }
+
+    /* ───────── Keyboard Shortcut ───────── */
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 30px;
+      padding: 0 8px;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.1);
+      border-bottom-width: 2px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    [data-theme="dark"] kbd {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .shortcut-recorder {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .shortcut-recorder.recording {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.15);
+      animation: pulse-border 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.15); }
+      50% { box-shadow: 0 0 0 8px rgba(229, 62, 62, 0.08); }
+    }
+    .shortcut-keys {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .shortcut-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .shortcut-recorder.recording .shortcut-keys kbd {
+      background: rgba(229, 62, 62, 0.1);
+      border-color: rgba(229, 62, 62, 0.3);
+      color: var(--danger);
+    }
+
+    /* ───────── Theme Toggle ───────── */
+    .theme-toggle-btn {
+      position: absolute;
+      top: 40px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    .theme-toggle-btn:hover {
+      background: var(--bg-input-hover);
+      transform: rotate(30deg);
+    }
+    .theme-toggle-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+    /* ───────── Footer Buttons ───────── */
+    .footer-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 8px;
+      animation: fadeSlideIn 0.6s ease-out 0.3s backwards;
+    }
+    .footer-actions .btn {
+      padding: 11px 28px;
+      font-size: 0.88rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* ───────── Toast ───────── */
+    .toast-container {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: var(--radius-md);
+      background: rgba(25, 25, 50, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-elevated);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: auto;
+    }
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .toast .toast-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .toast.success .toast-icon { color: var(--success); }
+    .toast.error .toast-icon { color: var(--danger); }
+    .toast.info .toast-icon { color: var(--accent); }
+
+    /* ───────── Conditional Visibility ───────── */
+    .mask-color-group {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.35s ease;
+      margin-top: 0;
+    }
+    .mask-color-group.visible {
+      max-height: 120px;
+      opacity: 1;
+      margin-top: 18px;
+    }
+
+    /* ───────── Animations ───────── */
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ───────── Scrollbar ───────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.1);
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.18); }
+    [data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); }
+    [data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
+
+    /* ───────── Responsive ───────── */
+    @media (max-width: 600px) {
+      .container { padding: 24px 14px 60px; }
+      .section { padding: 20px 16px 18px; border-radius: var(--radius-lg); }
+      .header h1 { font-size: 1.6rem; }
+      .form-row { flex-direction: column; gap: 14px; }
+      .form-row .form-group { min-width: 100%; }
+      .footer-actions { flex-direction: column; }
+      .footer-actions .btn { width: 100%; }
+      .section-desc { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ═══════ Theme Toggle ═══════ -->
+    <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle light/dark theme">
+      <!-- Icon set by JS -->
+    </button>
+
+    <!-- ═══════ Header ═══════ -->
+    <header class="header">
+      <div class="header-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      </div>
+      <h1>Gicons Settings</h1>
+      <p>Customize your Gmail toolbar experience</p>
+    </header>
+
+    <!-- ═══════ 1. Action Management ═══════ -->
+    <section class="section" id="sectionActions">
+      <h2 class="section-title">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg>
+        </span>
+        Action Management
+      </h2>
+      <p class="section-desc">Drag to reorder · Toggle visibility for each action</p>
+      <ul id="actionList"></ul>
+    </section>
+
+    <!-- ═══════ 2. Custom Icons ═══════ -->
+    <section class="section" id="sectionCustomIcons">
+      <h2 class="section-title">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        </span>
+        Custom Icons
+      </h2>
+      <p class="section-desc">Upload SVG or PNG icons for custom actions (max 100 KB each)</p>
+      <div class="custom-icons-grid" id="customIconsGrid"></div>
+    </section>
+
+    <!-- ═══════ 3. Theme & Colors ═══════ -->
+    <section class="section" id="sectionTheme">
+      <h2 class="section-title">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        </span>
+        Theme &amp; Colors
+      </h2>
+      <p class="section-desc">Choose a preset or customize icon and hover colors</p>
+
+      <div class="form-group">
+        <label class="form-label" for="themePreset">Theme Preset</label>
+        <select id="themePreset">
+          <option value="graphite">🩶 Dark Graphite</option>
+          <option value="blue">💙 Google Blue</option>
+          <option value="red">❤️ Ruby Red</option>
+          <option value="green">💚 Emerald Green</option>
+          <option value="custom">🎨 Custom</option>
+        </select>
+      </div>
+
+      <div class="form-row" style="margin-top: 18px;">
+        <div class="form-group">
+          <label class="form-label" for="iconColor">Icon Color</label>
+          <div class="color-picker-group">
+            <div class="color-swatch">
+              <input type="color" id="iconColor" value="#5f6368">
+            </div>
+            <input type="text" class="color-value" id="iconColorText" value="#5f6368" maxlength="7" spellcheck="false">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="hoverBgColor">Hover Background</label>
+          <div class="color-picker-group">
+            <div class="color-swatch" id="hoverBgSwatch">
+              <input type="color" id="hoverBgColor" value="#5f6368">
+            </div>
+            <input type="text" class="color-value" id="hoverBgColorText" value="rgba(95,99,104,0.15)" maxlength="30" spellcheck="false">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ 4. Layout ═══════ -->
+    <section class="section" id="sectionLayout">
+      <h2 class="section-title">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2zm12 14H5V5h10v14zm4 0h-2V5h2v14z"/></svg>
+        </span>
+        Layout
+      </h2>
+      <p class="section-desc">Adjust toolbar position and icon spacing</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="toolbarPosition">Toolbar Position</label>
+          <select id="toolbarPosition">
+            <option value="right">Right (Default)</option>
+            <option value="left">Left</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="iconSpacing">Icon Spacing (px)</label>
+          <input type="number" id="iconSpacing" min="0" max="20" value="2">
+        </div>
+      </div>
+
+      <div class="mask-color-group" id="maskColorGroup">
+        <div class="form-group">
+          <label class="form-label" for="maskBgColor">Mask Background Color</label>
+          <div class="color-picker-group">
+            <div class="color-swatch">
+              <input type="color" id="maskBgColor" value="#ffffff">
+            </div>
+            <input type="text" class="color-value" id="maskBgColorText" value="#ffffff" maxlength="7" spellcheck="false">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ 5. Keyboard Shortcut ═══════ -->
+    <section class="section" id="sectionShortcut">
+      <h2 class="section-title">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
+        </span>
+        Keyboard Shortcut
+      </h2>
+      <p class="section-desc">Trigger 'Filter by Sender' on the hovered email</p>
+
+      <div class="shortcut-recorder" id="shortcutRecorder">
+        <div class="shortcut-keys" id="shortcutKeysDisplay">
+          <!-- Will be populated by JS -->
+        </div>
+        <div class="shortcut-actions">
+          <button class="btn btn-ghost btn-sm" id="recordShortcutBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>
+            Record Shortcut
+          </button>
+          <button class="btn btn-ghost btn-sm" id="resetShortcutBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+            Reset Default
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ Footer ═══════ -->
+    <div class="footer-actions">
+      <button class="btn btn-outline" id="btnReset">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        Reset to Defaults
+      </button>
+      <button class="btn btn-primary" id="btnSave">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        Save Settings
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

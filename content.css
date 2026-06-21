@@ -1,0 +1,241 @@
+/**
+ * Gicons — Content Styles (v3)
+ * Uses a self-contained overlay approach instead of injecting into Gmail's <ul>.
+ * Matches Gmail's native Material Design button aesthetic.
+ */
+
+:root {
+  --gicons-color: #5f6368;
+  --gicons-hover-bg: rgba(32, 33, 36, 0.059);
+  --gicons-spacing: 0px;
+  --gicons-mask-bg: #ffffff;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ICON BUTTON — matches Gmail's native toolbar buttons
+   ═══════════════════════════════════════════════════════════════════ */
+
+.gicons-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  color: var(--gicons-color) !important;
+  fill: var(--gicons-color) !important;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
+  font-size: 0 !important;
+}
+
+.gicons-btn:hover {
+  background-color: var(--gicons-hover-bg) !important;
+}
+
+.gicons-btn:active {
+  background-color: rgba(32, 33, 36, 0.12) !important;
+}
+
+.gicons-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+  fill: currentColor !important;
+  pointer-events: none !important;
+}
+
+.gicons-btn img {
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TOOLTIP — matches Gmail's native tooltip style
+   ═══════════════════════════════════════════════════════════════════ */
+
+.gicons-btn::after {
+  content: attr(data-gicons-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.92);
+  padding: 4px 8px;
+  background: #3c4043;
+  color: #e8eaed;
+  font-size: 12px !important;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif !important;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease 0.4s, transform 0.15s ease 0.4s;
+  z-index: 99999;
+}
+
+.gicons-btn:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.gicons-btn::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #3c4043;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease 0.4s;
+  z-index: 99999;
+}
+
+.gicons-btn:hover::before {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ROW TOOLBAR (RIGHT) — self-contained overlay on the right side
+   Covers Gmail's native hover buttons so only ours are visible.
+   ═══════════════════════════════════════════════════════════════════ */
+
+tr.zA[data-gicons-processed] {
+  position: relative !important;
+}
+
+.gicons-row-toolbar {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: var(--gicons-spacing) !important;
+  padding: 0 14px 0 28px !important;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, var(--gicons-mask-bg) 24px) !important;
+  z-index: 20 !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+  box-sizing: border-box !important;
+}
+
+/* Unread rows often have a slight tint — match it */
+tr.zA.zE .gicons-row-toolbar {
+  background: linear-gradient(to right, rgba(242,246,252,0) 0%, #f2f6fc 24px) !important;
+}
+
+tr.zA:hover .gicons-row-toolbar {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Hide Gmail's native hover-action buttons when our toolbar is active.
+   Gmail's native buttons have aria-labels and live outside our toolbar. */
+tr.zA[data-gicons-processed]:hover [aria-label="Archive"]:not([data-gicons-action]),
+tr.zA[data-gicons-processed]:hover [aria-label="Delete"]:not([data-gicons-action]),
+tr.zA[data-gicons-processed]:hover [aria-label="Mark as read"]:not([data-gicons-action]),
+tr.zA[data-gicons-processed]:hover [aria-label="Mark as unread"]:not([data-gicons-action]),
+tr.zA[data-gicons-processed]:hover [aria-label="Snooze"]:not([data-gicons-action]) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ROW TOOLBAR (LEFT) — overlay on the subject cell
+   ═══════════════════════════════════════════════════════════════════ */
+
+.gicons-toolbar-left {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: var(--gicons-spacing) !important;
+  padding: 0 8px !important;
+  z-index: 10 !important;
+  background-color: var(--gicons-mask-bg) !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+  box-sizing: border-box !important;
+}
+
+td.gicons-subject-cell-relative {
+  position: relative !important;
+}
+
+tr.zA:hover .gicons-toolbar-left {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   EMAIL VIEW TOOLBAR — before the 3-dot More menu
+   ═══════════════════════════════════════════════════════════════════ */
+
+.gicons-email-toolbar {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: var(--gicons-spacing) !important;
+  margin: 0 4px !important;
+  padding: 0 4px !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.gicons-email-toolbar .gicons-btn {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TOAST NOTIFICATION
+   ═══════════════════════════════════════════════════════════════════ */
+
+.gicons-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  padding: 10px 24px;
+  background: #323232;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  max-width: 400px;
+  text-align: center;
+}
+
+.gicons-toast.gicons-toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
