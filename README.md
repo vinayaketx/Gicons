@@ -1,5 +1,11 @@
 # 🚀 Gicons - Gmail Quick-Action Toolbar
 
+
+
+<figure><img alt="Gicons Is The Best Chrome Extension For Gmail Custom Actions" height="267" loading="lazy" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj8N720eOLlgv1hQ-VnJLLNOFD4DDYO4yvZo0Q_MpDyVac-SY4P0jWWEgAumdK-KrdPiBA82n3TVPnuLIoJeBZ_MJ0O0tF4tpw065F_-js6MqEvHz_ukVf9RUFYS_WFyTpii9bnoG7NK48rqkRkcA_dvXkmtDawgKWD7csxwRFBXtOpReThUAo6sQXiZAhH/s1600/Gicons_Chrome_Extension_Gmail_Custom_Actions.webp" title="Gicons Is The Best Chrome Extension For Gmail Custom Actions" width="800"/><figcaption>Gicons Is The Best Chrome Extension For Gmail Custom Actions</figcaption></figure>
+
+
+
 **Gicons** is a powerful, lightweight Chrome Extension designed to supercharge your Gmail workflow. It intelligently injects a customizable row of quick-action icons directly onto every email row in your inbox, and into the top toolbar when viewing a message. 
 
 Manage your inbox faster than ever—archive, delete, snooze, mark as read, or run custom filters without ever opening an email.
